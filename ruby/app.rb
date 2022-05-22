@@ -44,10 +44,30 @@ class App < Sinatra::Base
     end
 
     def get_reservations(schedule)
-      reservations = db.xquery('SELECT * FROM `reservations` WHERE `schedule_id` = ?', schedule[:id]).map do |reservation|
-        reservation[:user] = get_user(reservation[:user_id])
+      # これを
+      # reservations = db.xquery('SELECT * FROM `reservations` WHERE `schedule_id` = ?', schedule[:id]).map do |reservation|
+      #   reservation[:user] = get_user(reservation[:user_id])
+      #   reservation
+      # end
+
+      # こうした
+      can_view_email = !current_user || !current_user[:staff]
+      reservations = db.xquery('SELECT `reservations`.`id`, `reservations`.`schedule_id`, `reservations`.`user_id`, `reservations`.`created_at` AS `reservation_created_at`, `users`.`email`, `users`.`nickname`, `users`.`staff`, `users`.`created_at` AS `user_created_at` FROM `reservations` LEFT JOIN `users` ON `users`.`id` = `reservations`.`user_id` WHERE `reservations`.`schedule_id` = ?', schedule[:id]).map do |reservation_and_user|
+        reservation = {}
+        reservation[:id] = reservation_and_user[:id]
+        reservation[:schedule_id] = reservation_and_user[:schedule_id]
+        reservation[:user_id] = reservation_and_user[:user_id]
+        reservation[:created_at] = reservation_and_user[:reservation_created_at]
+        user = {}
+        user[:id] = reservation_and_user[:user_id]
+        user[:email] = can_view_email ? reservation_and_user[:email] : ''
+        user[:nickname] = reservation_and_user[:nickname]
+        user[:staff] = reservation_and_user[:staff]
+        user[:created_at] = reservation_and_user[:user_created_at]
+        reservation[:user] = user
         reservation
       end
+
       schedule[:reservations] = reservations
       schedule[:reserved] = reservations.size
     end
