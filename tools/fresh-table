@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# mysql -uisucon -pisucon -h127.0.0.1 -Disucon2021_prior < ./sql/00_setup.sql
+mysql -uisucon -pisucon -h127.0.0.1 -Disucon2021_prior < ./sql/01_schema.sql

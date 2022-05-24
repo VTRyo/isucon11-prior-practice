@@ -1,4 +1,5 @@
 require 'sinatra/json'
+require "sinatra/cors"
 require 'active_support/json'
 require 'active_support/time'
 require_relative 'db'
@@ -13,6 +14,9 @@ class App < Sinatra::Base
   set :show_exceptions, false
   set :public_folder, './public'
   set :json_encoder, ActiveSupport::JSON
+  set :allow_origin, "*"
+  set :allow_methods, "GET,HEAD,POST,PUT,PATCH,DELETE"
+  set :allow_headers, "*"
 
   helpers do
     def db

@@ -2,6 +2,7 @@ import { Button, Card, CardContent, Container, createStyles, Grid, makeStyles, T
 import { Alert } from '@material-ui/lab';
 import React, { ChangeEventHandler, FormEventHandler, useCallback, useState, VFC } from "react";
 import { useHistory } from "react-router";
+import { apiUrl } from "./config";
 import { useAppContext } from "./context";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -31,7 +32,7 @@ export const LoginPage: VFC = () => {
     const fd = new FormData();
     fd.append('email', form.email);
 
-    fetch('/api/login', {
+    fetch(`${apiUrl}/api/login`, {
       method: 'POST',
       mode: 'same-origin',
       body: fd

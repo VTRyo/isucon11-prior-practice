@@ -44,6 +44,7 @@ GEM
       rack-protection (= 2.1.0)
       sinatra (= 2.1.0)
       tilt (~> 2.0)
+    sinatra-cors (1.2.0)
     tilt (2.0.10)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
@@ -64,6 +65,7 @@ DEPENDENCIES
   simplecov
   sinatra
   sinatra-contrib
+  sinatra-cors
   ulid
 
 BUNDLED WITH

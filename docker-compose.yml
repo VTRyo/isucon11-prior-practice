@@ -1,35 +1,5 @@
 version: 'latest'
 services:
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: ./Dockerfile
-    volumes:
-      - ./nginx:/etc/nginx/conf.d
-    ports:
-      - "8080:80"
-    depends_on:
-      - backend
-  backend:
-    build:
-      context: ./ruby
-      dockerfile: ./Dockerfile
-    restart: always
-    environment:
-      MYSQL_HOSTNAME: mysql
-      DEBUG: "true"
-      DB_HOST: mysql
-      DB_USER: isucon
-      DB_PASS: isucon
-      DB_NAME: isucon2021_prior
-    entrypoint: dockerize -timeout 60s -wait tcp://mysql:3306 bundle exec puma -p 7000
-    ports:
-      - "7000:7000"
-    depends_on:
-      - mysql
-    volumes:
-      - ./data:/webapp/data:ro
-      - ./sql:/webapp/sql:ro
   mysql:
     platform: linux/x86_64
     image: mysql
@@ -44,15 +14,4 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - mysql:/var/lib/mysql
-  adminer:
-    image: adminer:latest
-    restart: always
-    environment:
-      ADMINER_DEFAULT_SERVER: mysql
-      ADMINER_DESIGN: nette
-    ports:
-      - "7001:8080"
-
-volumes:
-  mysql:
+      - ./mysql:/var/lib/mysql

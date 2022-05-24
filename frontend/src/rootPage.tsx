@@ -1,6 +1,7 @@
 import { Button, ButtonGroup, Container, createStyles, FormControlLabel, FormGroup, List, ListItem, ListItemText, makeStyles, Paper, Switch, Typography } from "@material-ui/core";
 import React, { useEffect, useState, VFC } from "react";
 import { useHistory } from "react-router";
+import { apiUrl } from "./config";
 import { useAppContext } from "./context";
 import { Schedule } from "./model";
 
@@ -35,7 +36,7 @@ export const RootPage: VFC = () => {
 
   useEffect(() => {
     update((s) => ({ ...s, loading: true }));
-    let url = '/api/schedules';
+    let url = `${apiUrl}/api/schedules`;
     if (state.all) {
       url += '?reserved=1'
     }
