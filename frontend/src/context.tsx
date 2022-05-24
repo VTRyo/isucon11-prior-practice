@@ -1,5 +1,5 @@
 import React, { createContext, FC, useCallback, useContext, useEffect, useState } from "react";
-import { apiUrl } from "./config";
+import { apiUrl, fetchMode } from "./config";
 import { User } from "./model";
 
 
@@ -27,7 +27,7 @@ export const AppContextProvider: FC = ({ children }) => {
   }, [update])
 
   useEffect(() => {
-    fetch(`${apiUrl}/api/session`).then((r) => r.json()).then((user) => {
+    fetch(`${apiUrl}/api/session`, {mode: fetchMode}).then((r) => r.json()).then((user) => {
       update(user)
     })
   }, [update])

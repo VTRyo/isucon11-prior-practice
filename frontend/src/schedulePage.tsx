@@ -2,7 +2,7 @@ import { Breadcrumbs, Button, Card, CardContent, Container, createStyles, Grid, 
 import React, { MouseEventHandler, useCallback, useEffect, useState, VFC } from "react";
 import { useParams } from "react-router";
 import { Link as RouterLink } from 'react-router-dom';
-import { apiUrl } from "./config";
+import { apiUrl, fetchMode } from "./config";
 import { useAppContext } from "./context";
 import { Schedule } from "./model";
 
@@ -30,7 +30,7 @@ export const SchedulePage: VFC = () => {
     fd.append('schedule_id', id);
     fetch(`${apiUrl}/api/reservations`, {
       method: 'POST',
-      mode: 'same-origin',
+      mode: fetchMode,
       body: fd,
     }).then(() => {
       update((s) => ({ ...s, tick: s.tick + 1 }));
@@ -39,7 +39,7 @@ export const SchedulePage: VFC = () => {
 
   useEffect(() => {
     update((s) => ({ ...s, loading: true }))
-    fetch(`${apiUrl}/api/schedules/${id}`).then((res) => res.json()).then((schedule) => {
+    fetch(`${apiUrl}/api/schedules/${id}`, {mode: fetchMode}).then((res) => res.json()).then((schedule) => {
       update((state) => ({ ...state, schedule, loading: false }))
     })
   }, [id, update, state.tick])

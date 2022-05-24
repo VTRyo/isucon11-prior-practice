@@ -1,7 +1,7 @@
 import { Button, Card, CardContent, Container, createStyles, Grid, makeStyles, TextField, Theme } from "@material-ui/core";
 import React, { ChangeEventHandler, FormEventHandler, useCallback, useState, VFC } from "react";
 import { useHistory } from "react-router";
-import { apiUrl } from "./config";
+import { apiUrl, fetchMode } from "./config";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,7 +34,7 @@ export const SignupPage: VFC = () => {
 
     fetch(`${apiUrl}/api/signup`, {
       method: 'POST',
-      mode: 'same-origin',
+      mode: fetchMode,
       body: fd
     }).then((res) => {
       if(res.status === 200) {

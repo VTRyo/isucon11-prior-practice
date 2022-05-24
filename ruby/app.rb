@@ -7,6 +7,7 @@ require_relative 'db'
 Time.zone = 'UTC'
 
 class App < Sinatra::Base
+  register Sinatra::Cors
   enable :logging
 
   set :session_secret, 'tagomoris'

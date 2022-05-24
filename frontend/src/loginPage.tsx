@@ -2,7 +2,7 @@ import { Button, Card, CardContent, Container, createStyles, Grid, makeStyles, T
 import { Alert } from '@material-ui/lab';
 import React, { ChangeEventHandler, FormEventHandler, useCallback, useState, VFC } from "react";
 import { useHistory } from "react-router";
-import { apiUrl } from "./config";
+import { apiUrl, fetchMode } from "./config";
 import { useAppContext } from "./context";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -34,7 +34,7 @@ export const LoginPage: VFC = () => {
 
     fetch(`${apiUrl}/api/login`, {
       method: 'POST',
-      mode: 'same-origin',
+      mode: fetchMode,
       body: fd
     }).then(async (res) => {
       if(res.status === 200) {
